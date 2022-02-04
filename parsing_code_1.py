@@ -5,18 +5,16 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import re
 
-z = set()
 ag = str()
 data = []
-data_boevik =[]
-data_drama =[]
+count = 0
 
 url0 = f'https://kinobar.vip/'
 r0 = requests.get(url0)
 soup0 = BeautifulSoup(r0.text, 'lxml')
 
 x = 1                       # variable (first page for searching)
-y = 20                      # variable ("n" page for searching)
+y = 3                      # variable ("n" page for searching)
 
 for p0 in range(x, y):
     print(p0)
@@ -34,24 +32,16 @@ for p0 in range(x, y):
 
         ag += ', ' + genre0          # ag => variable (all genres)
 
-print('type(ag)', type(ag), ag)
-
 agl = ag.split(',')             # agl => variable (all genres list)
-print('agl', type(agl), agl)
 
 for i in range(len(agl)):
     agl[i] = agl[i].strip()
-print(agl)
 
 ag_set = set(agl)               # ag_set => variable (all genres set)
 ag_set.pop()                    # crutch to remove first empty item in variable genre
 agl_cl = list(ag_set)           # agl_cl => variable (all genres list cleaned)
 print('agl_cl', len(agl_cl), type(agl_cl), agl_cl)
-print('agl_cl[0]', agl_cl[0])
 
-print('type(genre0)', type(genre0), genre0)
-
-count = 0
 for p in range(x, y):
     print(p)
     url = f"https://kinobar.vip/detektiv/page/{p}"
@@ -71,7 +61,7 @@ for p in range(x, y):
         appearance = film.find('ul', class_='mn_links').text.split('\n')[1]
 
         data.append([link, name, genre, director, year, appearance])
-
+print('len(data)', len(data), type(data))
 
 for d in range(0, len(agl_cl)):
     with open('cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
@@ -80,13 +70,13 @@ for d in range(0, len(agl_cl)):
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
         )
 
-for k in range(0, len(agl_cl)):
-    for t in range(0, len(data)):
-        if agl_cl[k] in data[t][2]:
-            with open('cinema_'+agl_cl[k]+'_.csv', 'a') as final_file:
+for g in range(0, len(agl_cl)):
+    for f in range(0, len(data)):
+        if agl_cl[g] in data[f][2]:
+            with open('cinema_' + agl_cl[g] + '_.csv', 'a', ) as final_file:
                 writer = csv.writer(final_file)
                 writer.writerow(
-                    data[t][:]
+                    data[f][:]
                 )
 
 header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
