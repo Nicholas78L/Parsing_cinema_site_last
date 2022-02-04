@@ -15,8 +15,8 @@ url0 = f'https://kinobar.vip/'
 r0 = requests.get(url0)
 soup0 = BeautifulSoup(r0.text, 'lxml')
 
-x = 1
-y = 20
+x = 1                       # variable (first page for searching)
+y = 20                      # variable ("n" page for searching)
 
 for p0 in range(x, y):
     print(p0)
@@ -88,3 +88,7 @@ for k in range(0, len(agl_cl)):
                 writer.writerow(
                     data[t][:]
                 )
+
+header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
+df = pd.DataFrame(data, columns=header)
+df.to_csv('cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
