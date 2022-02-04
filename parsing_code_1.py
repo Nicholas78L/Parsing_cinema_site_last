@@ -15,7 +15,10 @@ url0 = f'https://kinobar.vip/'
 r0 = requests.get(url0)
 soup0 = BeautifulSoup(r0.text, 'lxml')
 
-for p0 in range(1, 3):
+x = 1
+y = 20
+
+for p0 in range(x, y):
     print(p0)
     url0 = f"https://kinobar.vip/detektiv/page/{p0}"
     r0 = requests.get(url0)
@@ -49,7 +52,7 @@ print('agl_cl[0]', agl_cl[0])
 print('type(genre0)', type(genre0), genre0)
 
 count = 0
-for p in range(1, 3):
+for p in range(x, y):
     print(p)
     url = f"https://kinobar.vip/detektiv/page/{p}"
     r = requests.get(url)
