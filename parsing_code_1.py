@@ -7,14 +7,15 @@ import re
 
 ag = str()
 data = []
-count = 0
+# count = []
 
 url0 = f'https://kinobar.vip/'
 r0 = requests.get(url0)
 soup0 = BeautifulSoup(r0.text, 'lxml')
 
-x = 1                       # variable (first page for searching)
-y = 3                      # variable ("n" page for searching)
+x = 1       # variable (first page for searching)
+y = 3       # variable ("n" page for searching)
+stop = 5    # variable (which points how many films do we need)
 
 #   #   #   #   #   #    Create a base of all genres    #   #   #   #   #   #
 for p0 in range(x, y):
@@ -66,7 +67,7 @@ print('len(data)', len(data), type(data))
 
 #   #   #   #   #   #    Create the csv files for each genres    #   #   #   #   #   #
 for d in range(0, len(agl_cl)):
-    with open('cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
+    with open('film_base/cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
         writer = csv.writer(template_file)
         writer.writerow(
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -80,9 +81,15 @@ df.to_csv('film_base/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
 #   #   #   #   #   #    Fill the csv files for each genre with movies    #   #   #   #   #   #
 for g in range(0, len(agl_cl)):
     for f in range(0, len(data)):
+        # count = 0
         if agl_cl[g] in data[f][2]:
-            with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a', ) as final_file:
-                writer = csv.writer(final_file)
-                writer.writerow(
-                    data[f][:]
-                )
+            # if count >= stop:
+                with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a') as final_file:
+                    writer = csv.writer(final_file)
+                    writer.writerow(
+                        data[f][:]
+                    )
+                    # count += 1
+
+
+
