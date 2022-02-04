@@ -16,6 +16,7 @@ soup0 = BeautifulSoup(r0.text, 'lxml')
 x = 1                       # variable (first page for searching)
 y = 3                      # variable ("n" page for searching)
 
+#   #   #   #   #   #    Create a base of all genres    #   #   #   #   #   #
 for p0 in range(x, y):
     print(p0)
     url0 = f"https://kinobar.vip/detektiv/page/{p0}"
@@ -29,7 +30,6 @@ for p0 in range(x, y):
             genre0 = film0.find('ul', class_='teaser_ads').text.split('\n')[2].split(':')[1].strip()
         except:
             genre0 = '-'
-
         ag += ', ' + genre0          # ag => variable (all genres)
 
 agl = ag.split(',')             # agl => variable (all genres list)
@@ -42,6 +42,7 @@ ag_set.pop()                    # crutch to remove first empty item in variable 
 agl_cl = list(ag_set)           # agl_cl => variable (all genres list cleaned)
 print('agl_cl', len(agl_cl), type(agl_cl), agl_cl)
 
+#   #   #   #   #   #    Create a base of all movies (data)    #   #   #   #   #   #
 for p in range(x, y):
     print(p)
     url = f"https://kinobar.vip/detektiv/page/{p}"
@@ -63,6 +64,7 @@ for p in range(x, y):
         data.append([link, name, genre, director, year, appearance])
 print('len(data)', len(data), type(data))
 
+#   #   #   #   #   #    Create the csv files for each genres    #   #   #   #   #   #
 for d in range(0, len(agl_cl)):
     with open('cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
         writer = csv.writer(template_file)
@@ -70,6 +72,12 @@ for d in range(0, len(agl_cl)):
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
         )
 
+#   #   #   #   #   #    Create the csv file for all movies together    #   #   #   #   #   #
+header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
+df = pd.DataFrame(data, columns=header)
+df.to_csv('cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
+
+#   #   #   #   #   #    Fill the csv files for each genre with movies    #   #   #   #   #   #
 for g in range(0, len(agl_cl)):
     for f in range(0, len(data)):
         if agl_cl[g] in data[f][2]:
@@ -78,7 +86,3 @@ for g in range(0, len(agl_cl)):
                 writer.writerow(
                     data[f][:]
                 )
-
-header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
-df = pd.DataFrame(data, columns=header)
-df.to_csv('cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
