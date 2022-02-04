@@ -75,13 +75,13 @@ for d in range(0, len(agl_cl)):
 #   #   #   #   #   #    Create the csv file for all movies together    #   #   #   #   #   #
 header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
 df = pd.DataFrame(data, columns=header)
-df.to_csv('cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
+df.to_csv('film_base/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
 
 #   #   #   #   #   #    Fill the csv files for each genre with movies    #   #   #   #   #   #
 for g in range(0, len(agl_cl)):
     for f in range(0, len(data)):
         if agl_cl[g] in data[f][2]:
-            with open('cinema_' + agl_cl[g] + '_.csv', 'a', ) as final_file:
+            with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a', ) as final_file:
                 writer = csv.writer(final_file)
                 writer.writerow(
                     data[f][:]
