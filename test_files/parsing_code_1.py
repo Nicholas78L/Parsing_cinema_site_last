@@ -9,11 +9,11 @@ ag = str()
 data = []
 # count = []
 
-url0 = f'https://kinobar.vip/'
-r0 = requests.get(url0)
-soup0 = BeautifulSoup(r0.text, 'lxml')
+# url0 = f'https://kinobar.vip/'
+# r0 = requests.get(url0)
+# soup0 = BeautifulSoup(r0.text, 'lxml')
 
-x = 1       # variable (first page for searching)
+x = 1         # variable (first page for searching)
 y = 3       # variable ("n" page for searching)
 stop = 5    # variable (which points how many films do we need)
 
@@ -22,7 +22,7 @@ for p0 in range(x, y):
     print(p0)
     url0 = f"https://kinobar.vip/detektiv/page/{p0}"
     r0 = requests.get(url0)
-    sleep(2)
+    sleep(1)
     soup0 = BeautifulSoup(r0.text, "lxml")
     films0 = soup0.findAll('div', class_='main_news')
 
@@ -33,12 +33,12 @@ for p0 in range(x, y):
             genre0 = '-'
         ag += ', ' + genre0          # ag => variable (all genres)
 
-agl = ag.split(',')             # agl => variable (all genres list)
+agl = ag.split(',')             # agl => variable (all genres <type = list>)
 
 for i in range(len(agl)):
     agl[i] = agl[i].strip()
 
-ag_set = set(agl)               # ag_set => variable (all genres set)
+ag_set = set(agl)               # ag_set => variable (all genres <type = set>)
 ag_set.pop()                    # crutch to remove first empty item in variable genre
 agl_cl = list(ag_set)           # agl_cl => variable (all genres list cleaned)
 print('agl_cl', len(agl_cl), type(agl_cl), agl_cl)
@@ -72,24 +72,40 @@ for d in range(0, len(agl_cl)):
         writer.writerow(
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
         )
+        template_file.close()
 
 #   #   #   #   #   #    Create the csv file for all movies together    #   #   #   #   #   #
-header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
-df = pd.DataFrame(data, columns=header)
-df.to_csv('film_base/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
+# header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
+# df = pd.DataFrame(data, columns=header)
+# df.to_csv('film_base/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
+
+with open('film_base/cinema_parsing_all_in_one.csv', 'w') as general_file:
+    writer = csv.writer(general_file)
+    writer.writerow(
+        ('link', 'name', 'genre', 'director', 'year', 'appearance')
+    )
+    general_file.close()
+
+for items in data:
+    with open('film_base/cinema_parsing_all_in_one.csv', 'a') as general_file:
+        writer = csv.writer(general_file)
+        writer.writerow(
+            items
+        )
 
 #   #   #   #   #   #    Fill the csv files for each genre with movies    #   #   #   #   #   #
 for g in range(0, len(agl_cl)):
+    count = 1
     for f in range(0, len(data)):
-        # count = 0
-        if agl_cl[g] in data[f][2]:
-            # if count >= stop:
-                with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a') as final_file:
-                    writer = csv.writer(final_file)
-                    writer.writerow(
-                        data[f][:]
-                    )
-                    # count += 1
+        if agl_cl[g] in data[f][2] and count <= stop:
+            with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a') as final_file:
+                writer = csv.writer(final_file)
+                writer.writerow(
+                    data[f][:]
+                )
+                count += 1
+        else:
+            continue
 
 
 
