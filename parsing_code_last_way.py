@@ -18,7 +18,7 @@ soup = BeautifulSoup(r.text, 'lxml')
 categories = soup.find('ul', class_='cats_menu').find_all('a')
 print('type(categories)', type(categories), categories)
 for cat in categories:
-    stop = 15  # variable (which points how many films do we need)
+    stop = 100  # variable (which points how many films do we need)
     data = []
     # genre = cat.find('a').find('title')
     films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news') # For find out nfop
