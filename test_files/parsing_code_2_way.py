@@ -24,7 +24,7 @@ for cat in categories:
     a = 0
     data = []
     # genre = cat.find('a').find('title')
-    films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news') # For find out nfop
+    films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news') # For find out capacity
     nfop = len(films0[:])   # The number of films on the one page => 14 (without the movie of the day)
     genre = cat.get('title')[:-7]
     link_genre = cat.get('href').strip('/')  # in string format
@@ -34,7 +34,7 @@ for cat in categories:
     genre = genre.split(';')
     genres += genre
     url_genre = url + link_genre
-    # print('nfop', type(nfop), nfop)
+    # print('capacity', type(capacity), capacity)
 # print('genres', len(genres), genres)
 #     print('link_genre', type(link_genre), link_genre)
 # print('links_genres', len(links_genres), type(links_genres), links_genres)

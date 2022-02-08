@@ -9,6 +9,7 @@ dataAll = []        #
 ag = str()
 links_genres = []
 genres = []
+t = 0
 
 #   #   #   #   #   #    Create a base of all genres    #   #   #   #   #   #
 
@@ -21,7 +22,7 @@ for cat in categories:
     stop = 2  # variable (which points how many films do we need)
     data = []
     # genre = cat.find('a').find('title')
-    films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news')   # To find out the variable 'nfop'
+    films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news')   # To find out the variable 'capacity'
     nfop = len(films0[:])   # The number of films on the one page => 14 (without the movie of the day)
     genre = cat.get('title')[:-7]
     link_genre = cat.get('href').strip('/')  # in string format
@@ -33,12 +34,11 @@ for cat in categories:
     url_genre = url + link_genre
     # print(genre)
 # print()
-# print('links_genres', type(links_genres), len(links_genres), links_genres)
+# print('links_genres[2]', type(links_genres[2]), links_genres[2])
 # print('genres', type(genres), len(genres), genres)
 # print('genres[2]', type(genres[2]), genres[2])
 # i = genres[2]
 # p = i
-# print('p', type(p), p)
 # together_dict = dict(zip(links_genres, genres))
 # new_list = together_dict.values()
 # print(list(new_list)[3].split())
@@ -48,17 +48,19 @@ for cat in categories:
 # print('new_list[3]', type(new_list[3]), new_list[3])
 
     for page in range(round(stop/nfop + 1)):
-        k = round((stop/nfop + 1))
-        print('k', type(k), k)
+        # k = round((stop/nfop + 1))
+        # print('k', type(k), k)
         url1 = url + link_genre + f'/page/{page}'
         r1 = requests.get(url1)
-        sleep(1)
+        sleep(4)
         soup1 = BeautifulSoup(r1.text, "lxml")
         films = soup1.findAll('div', class_='main_news')
         numer = len(films[:])  # The number of movies on the one page (14)
-        print('numer', type(numer), numer)
+        # print('numer', type(numer), numer)
 
         for film in films:
+            t += 1  # счётчик прохождения выполнения кода (для наглядности)
+            print(t)
             if len(data) <= (stop-1):
                 link = film.find('div', class_='mn_left_img').find('a', class_='link img').get('href')[:]
                 name = film.find('h2', class_='zagolovok').text.rstrip()
@@ -70,13 +72,13 @@ for cat in categories:
                 dataAll.append([link, name, genre1, director, year, appearance])
             else:
                 break
-            print('data', len(data), type(data), data)
+            # print('data', len(data), type(data), data)
 
 #   #   #   #   #    Create the empty csv files for each genre    #   #   #   #   #   #
 # Создаю пустые csv файлы для очистки их же при каждом следующем запуске программы, т.о. пользователю
 # будут доступны только "свежие" данные.
 for b in range(0, len(links_genres)):
-    with open('film_database/cinema_'+links_genres[b]+'_.csv', 'w') as template_file:
+    with open('film_databases/cinema_'+links_genres[b]+'_.csv', 'w') as template_file:
         writer = csv.writer(template_file)
         writer.writerow(
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -88,7 +90,7 @@ for b in range(0, len(links_genres)):
 # df = pd.DataFrame(data, columns=header)
 # df.to_csv('film_database/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
 
-with open('film_database/cinema_parsing_all_in_one.csv', 'w') as general_file:
+with open('film_databases/cinema_parsing_all_in_one.csv', 'w') as general_file:
     writer = csv.writer(general_file)
     writer.writerow(
         ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -96,24 +98,24 @@ with open('film_database/cinema_parsing_all_in_one.csv', 'w') as general_file:
     general_file.close()
 
 for items in dataAll:
-    with open('film_database/cinema_parsing_all_in_one.csv', 'a') as general_file:
+    with open('film_databases/cinema_parsing_all_in_one.csv', 'a') as general_file:
         writer = csv.writer(general_file)
         writer.writerow(
             items
         )
 
 #   #   #   #   #   #    Fill the csv files for each genre with movies    #   #   #   #   #   #
-together_dict = dict(zip(links_genres, genres))
-new_list = together_dict.values()
+# together_dict = dict(zip(links_genres, genres))
+# new_list = together_dict.values()
 
 for g in range(0, len(links_genres)):
     count = 0
     for f in range(0, len(dataAll)):
         # if list(new_list)[g] in dataAll[f][2] and count <= (stop-1):
         if genres[g] in dataAll[f][2] and count <= (stop - 1):
-            print('dataAll[f][2]', type(dataAll[f][2]), dataAll[f][2])
-            print('genres[2]', type(genres[2]), genres[2])
-            with open('film_database/cinema_' + links_genres[g] + '_.csv', 'a') as final_file:
+            # print('dataAll[f][2]', type(dataAll[f][2]), dataAll[f][2])
+            # print('genres[2]', type(genres[2]), genres[2])
+            with open('film_databases/cinema_' + links_genres[g] + '_.csv', 'a') as final_file:
                 writer = csv.writer(final_file)
                 writer.writerow(
                     dataAll[f][:]
