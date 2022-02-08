@@ -23,8 +23,7 @@ for cat in categories:
     # genre = cat.find('a').find('title')
     films0 = soup.find('div', id='dle-content').findAll('div', class_='main_news')   # To find out the variable 'nfop'
     nfop = len(films0[:])   # The number of films on the one page => 14 (without the movie of the day)
-    # genre = cat.get('title')[:-7]
-    genre = cat.text
+    genre = cat.get('title')[:-7]
     link_genre = cat.get('href').strip('/')  # in string format
     link_genre_l = link_genre.split()
     links_genres += link_genre_l                    # Список жанров на латинице
@@ -36,7 +35,7 @@ for cat in categories:
 # print()
 # print('links_genres', type(links_genres), len(links_genres), links_genres)
 # print('genres', type(genres), len(genres), genres)
-# print('genres[14]', type(genres[14]), genres[14])
+# print('genres[2]', type(genres[2]), genres[2])
 # i = genres[2]
 # p = i
 # print('p', type(p), p)
@@ -47,7 +46,7 @@ for cat in categories:
 # print('new_list', type(new_list), len(new_list), new_list)
 # print('list(new_list)[3]', type(list(new_list)[3]), list(new_list)[3])
 # print('new_list[3]', type(new_list[3]), new_list[3])
-#
+
     for page in range(round(stop/nfop + 1)):
         k = round((stop/nfop + 1))
         print('k', type(k), k)
@@ -64,7 +63,6 @@ for cat in categories:
                 link = film.find('div', class_='mn_left_img').find('a', class_='link img').get('href')[:]
                 name = film.find('h2', class_='zagolovok').text.rstrip()
                 genre1 = film.find('ul', class_='teaser_ads').text.split('\n')[2].split(':')[1].strip()
-                # print(('genre1', genre1))
                 director = film.find('div', class_='mn_text').find('li', id='teaser_rej').text.split(":")[1].strip()
                 year = film.find('ul', class_='teaser_ads').text.split(':')[1].split()[0]
                 appearance = film.find('ul', class_='mn_links').text.split('\n')[1]
@@ -108,7 +106,7 @@ for items in dataAll:
 together_dict = dict(zip(links_genres, genres))
 new_list = together_dict.values()
 
-for g in range(1, len(links_genres)):
+for g in range(0, len(links_genres)):
     count = 0
     for f in range(0, len(dataAll)):
         # if list(new_list)[g] in dataAll[f][2] and count <= (stop-1):
@@ -123,15 +121,3 @@ for g in range(1, len(links_genres)):
                 count += 1
         else:
             continue
-
-
-
-
-# for s in range(0, len(dataAll)):
-#     print('dataAll['+str(s)+'][2]', dataAll[s][2])
-# print('dataAll[28][:]', dataAll[28][:])
-# print('dataAll[29][:]', dataAll[29][:])
-# print('dataAll[15][2]', dataAll[15][2])
-#
-# dataAll[28][:] ['https://kinobar.vip/25333-lednikovyy-period-priklyucheniya-baka.html', 'Ледниковый период: Приключения Бака', 'Комедии, Фильмы 2022, Приключения, Триллеры, Мультфильмы, Семейный, Новинки кино', 'Джон С. Донкин', '2022', '29 января 2022']
-# dataAll[29][:] ['https://kinobar.vip/24577-gou-feliks.html', 'Гоу, Феликс', 'Приключения, Мультфильмы, Семейный, Фэнтези, Фильмы 2021', 'Николя Лемэй', '2021', 'Вчера, 12:59']

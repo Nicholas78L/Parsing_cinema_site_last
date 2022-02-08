@@ -120,7 +120,7 @@ for cat in categories:
 #
 # #   #   #   #   #   #    Create the csv files for each genres    #   #   #   #   #   #
 # for d in range(0, len(agl_cl)):
-#     with open('film_base/cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
+#     with open('film_database/cinema_'+agl_cl[d]+'_.csv', 'w') as template_file:
 #         writer = csv.writer(template_file)
 #         writer.writerow(
 #             ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -130,9 +130,9 @@ for cat in categories:
 # #   #   #   #   #   #    Create the csv file for all movies together    #   #   #   #   #   #
 # # header = ['link', 'name', 'genre', 'director', 'year', 'appearance']
 # # df = pd.DataFrame(data, columns=header)
-# # df.to_csv('film_base/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
+# # df.to_csv('film_database/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
 #
-# with open('film_base/cinema_parsing_all_in_one.csv', 'w') as general_file:
+# with open('film_database/cinema_parsing_all_in_one.csv', 'w') as general_file:
 #     writer = csv.writer(general_file)
 #     writer.writerow(
 #         ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -140,7 +140,7 @@ for cat in categories:
 #     general_file.close()
 #
 # for items in data:
-#     with open('film_base/cinema_parsing_all_in_one.csv', 'a') as general_file:
+#     with open('film_database/cinema_parsing_all_in_one.csv', 'a') as general_file:
 #         writer = csv.writer(general_file)
 #         writer.writerow(
 #             items
@@ -151,7 +151,7 @@ for cat in categories:
 #     count = 1
 #     for f in range(0, len(data)):
 #         if agl_cl[g] in data[f][2] and count <= stop:
-#             with open('film_base/cinema_' + agl_cl[g] + '_.csv', 'a') as final_file:
+#             with open('film_database/cinema_' + agl_cl[g] + '_.csv', 'a') as final_file:
 #                 writer = csv.writer(final_file)
 #                 writer.writerow(
 #                     data[f][:]
