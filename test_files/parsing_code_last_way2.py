@@ -78,7 +78,7 @@ for cat in categories:
 # Создаю пустые csv файлы для очистки их же при каждом следующем запуске программы, т.о. пользователю
 # будут доступны только "свежие" данные.
 for b in range(0, len(links_genres)):
-    with open('film_databases/cinema_'+links_genres[b]+'_.csv', 'w') as template_file:
+    with open('film_databaseTest_2/cinema_'+links_genres[b]+'_.csv', 'w') as template_file:
         writer = csv.writer(template_file)
         writer.writerow(
             ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -90,7 +90,7 @@ for b in range(0, len(links_genres)):
 # df = pd.DataFrame(data, columns=header)
 # df.to_csv('film_database/cinema_parsing_all_in_one.csv', sep=';', encoding='utf-8')
 
-with open('film_databases/cinema_parsing_all_in_one.csv', 'w') as general_file:
+with open('film_databaseTest_2/cinema_parsing_all_in_one.csv', 'w') as general_file:
     writer = csv.writer(general_file)
     writer.writerow(
         ('link', 'name', 'genre', 'director', 'year', 'appearance')
@@ -98,7 +98,7 @@ with open('film_databases/cinema_parsing_all_in_one.csv', 'w') as general_file:
     general_file.close()
 
 for items in dataAll:
-    with open('film_databases/cinema_parsing_all_in_one.csv', 'a') as general_file:
+    with open('film_databaseTest_2/cinema_parsing_all_in_one.csv', 'a') as general_file:
         writer = csv.writer(general_file)
         writer.writerow(
             items
@@ -115,7 +115,7 @@ for g in range(0, len(links_genres)):
         if genres[g] in dataAll[f][2] and count <= (stop - 1):
             # print('dataAll[f][2]', type(dataAll[f][2]), dataAll[f][2])
             # print('genres[2]', type(genres[2]), genres[2])
-            with open('film_databases/cinema_' + links_genres[g] + '_.csv', 'a') as final_file:
+            with open('film_databaseTest_2/cinema_' + links_genres[g] + '_.csv', 'a') as final_file:
                 writer = csv.writer(final_file)
                 writer.writerow(
                     dataAll[f][:]
